@@ -72,10 +72,8 @@ class MyAppState extends State<MyApp> {
                 onChanged: (string) {
                   setState(() {
                     filteredRegions = regions
-                        .where((u) => (u.provinceState
-                                .toLowerCase()
-                                .contains(string.toLowerCase()) ||
-                            u.countryRegion
+                        .where((u) =>
+                    (u.combinedKey
                                 .toLowerCase()
                                 .contains(string.toLowerCase())))
                         .toList();
@@ -228,10 +226,10 @@ class MyAppState extends State<MyApp> {
   }
 }
 
-ListTile tile(String provinceState, String countryRegion, int confirmed,
+ListTile tile(String combinedKey, int confirmed,
         int recovered, int deaths, int active) =>
     ListTile(
-      title: Text(countryRegion + provinceState,
+      title: Text(combinedKey,
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
       subtitle: Text("Confirmed: " +
           confirmed.toString() +
@@ -246,8 +244,7 @@ ListView regionsListView(filteredRegions) {
       itemCount: filteredRegions.length,
       itemBuilder: (context, index) {
         return tile(
-            filteredRegions[index].countryRegion,
-            filteredRegions[index].provinceState,
+            filteredRegions[index].combinedKey,
             filteredRegions[index].confirmed,
             filteredRegions[index].deaths,
             filteredRegions[index].recovered,
